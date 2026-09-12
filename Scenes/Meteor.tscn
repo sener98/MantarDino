@@ -1,0 +1,58 @@
+[gd_scene load_steps=10 format=2]
+
+[ext_resource path="res://Entities/sounds/Meteorfall.wav" type="AudioStream" id=1]
+[ext_resource path="res://Entities/objects/Stone.png" type="Texture2D" id=2]
+[ext_resource path="res://Scripts/Meteor.gd" type="Script" id=3]
+
+[sub_resource type="Gradient" id=1]
+colors = PackedColorArray( 1, 0, 0, 1, 0.965331, 0.996094, 0.011673, 1 )
+
+[sub_resource type="GradientTexture2D" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="Curve" id=3]
+_data = [ Vector2( 0, 0.463636 ), 0.0, 0.0, 0, 0, Vector2( 1, 0 ), 0.0, 0.0, 0, 0 ]
+
+[sub_resource type="CurveTexture" id=4]
+curve = SubResource( 3 )
+
+[sub_resource type="ParticleProcessMaterial" id=5]
+flag_disable_z = true
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+angle = 180.0
+scale_curve = SubResource( 4 )
+color_ramp = SubResource( 2 )
+
+[sub_resource type="RectangleShape2D" id=6]
+extents = Vector2( 44, 27 )
+
+[node name="Meteor" type="RigidBody2D"]
+collision_layer = 8
+gravity_scale = 0.0
+max_contacts_reported = 1
+contact_monitor = true
+script = ExtResource( 3 )
+
+[node name="Trail" type="GPUParticles2D" parent="."]
+scale = Vector2( 0.25, 0.25 )
+amount = 16
+local_coords = false
+process_material = SubResource( 5 )
+texture = ExtResource( 2 )
+
+[node name="Fall_Sound" type="AudioStreamPlayer2D" parent="Trail"]
+scale = Vector2( 4, 4 )
+stream = ExtResource( 1 )
+autoplay = true
+attenuation = 15.0
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 3.14159
+scale = Vector2( 0.5, 0.5 )
+texture = ExtResource( 2 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource( 6 )
+[connection signal="body_entered" from="." to="." method="_on_meteor_body_entered"]

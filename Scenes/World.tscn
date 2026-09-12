@@ -1,0 +1,84 @@
+[gd_scene format=4 uid="uid://clwtcs5eyx4tu"]
+
+[ext_resource type="PackedScene" path="res://Scenes/Finish.tscn" id="1"]
+[ext_resource type="PackedScene" path="res://Scenes/Mush.tscn" id="2"]
+[ext_resource type="PackedScene" path="res://Scenes/HUD.tscn" id="3"]
+[ext_resource type="PackedScene" path="res://Scenes/Enemy.tscn" id="4"]
+[ext_resource type="PackedScene" path="res://Scenes/Player.tscn" id="5"]
+[ext_resource type="Script" uid="uid://cfbi2kah7elnu" path="res://Scripts/World.gd" id="6"]
+[ext_resource type="Texture2D" uid="uid://42af6c38m1gw" path="res://Entities/tiles/2.png" id="15"]
+[ext_resource type="AudioStream" uid="uid://cuolfq1frokc2" path="res://Entities/sounds/Crossroads.ogg" id="16"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q2d71"]
+texture = ExtResource("15")
+texture_region_size = Vector2i(128, 128)
+0:0/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-64, -64, 64, -64, 64, 64, -64, 64)
+
+[sub_resource type="TileSet" id="10"]
+tile_size = Vector2i(128, 128)
+physics_layer_0/collision_layer = 2
+sources/10 = SubResource("TileSetAtlasSource_q2d71")
+
+[node name="World" type="Node2D" unique_id=407842568]
+script = ExtResource("6")
+
+[node name="Platform" type="TileMapLayer" parent="." unique_id=484525138]
+tile_map_data = PackedByteArray("AAD7/wUACgAAAAAAAAD8/wUACgAAAAAAAAD9/wUACgAAAAAAAAD+/wUACgAAAAAAAAD//wUACgAAAAAAAAAAAAUACgAAAAAAAAABAAUACgAAAAAAAAACAAUACgAAAAAAAAADAAUACgAAAAAAAAAEAAUACgAAAAAAAAAFAAUACgAAAAAAAAAGAAUACgAAAAAAAAAHAAUACgAAAAAAAAA=")
+tile_set = SubResource("10")
+
+[node name="Finish" parent="Platform" unique_id=338744035 instance=ExtResource("1")]
+position = Vector2(3328, 640)
+
+[node name="Mush" parent="Platform" unique_id=1591459182 instance=ExtResource("2")]
+position = Vector2(840, 384)
+
+[node name="Mush2" parent="Platform" unique_id=889771709 instance=ExtResource("2")]
+position = Vector2(1344, 384)
+
+[node name="Mush3" parent="Platform" unique_id=705503561 instance=ExtResource("2")]
+position = Vector2(1904, 256)
+
+[node name="Mush4" parent="Platform" unique_id=234426825 instance=ExtResource("2")]
+position = Vector2(2400, 0)
+
+[node name="Mush5" parent="Platform" unique_id=1806222853 instance=ExtResource("2")]
+position = Vector2(464, 640)
+
+[node name="Player" parent="." unique_id=1628235007 instance=ExtResource("5")]
+position = Vector2(0, 384)
+
+[node name="Enemy" parent="." unique_id=816589597 groups=["enemy"] instance=ExtResource("4")]
+position = Vector2(896, 576)
+
+[node name="Enemy2" parent="." unique_id=632342127 groups=["enemy"] instance=ExtResource("4")]
+position = Vector2(2432, 576)
+
+[node name="MeteorTimer" type="Timer" parent="." unique_id=672315433]
+
+[node name="HUD" parent="." unique_id=740182741 instance=ExtResource("3")]
+process_mode = 3
+layer = 2
+
+[node name="Music" type="AudioStreamPlayer" parent="HUD" unique_id=769416528]
+stream = ExtResource("16")
+volume_db = -18.0
+pitch_scale = 1.15
+autoplay = true
+bus = &"Music"
+
+[node name="GameOverTimer" type="Timer" parent="." unique_id=1385004815]
+wait_time = 3.0
+one_shot = true
+
+[connection signal="game_over" from="Player" to="." method="_on_Player_game_over"]
+[connection signal="timeout" from="MeteorTimer" to="." method="_on_meteorTimer_timeout"]
+[connection signal="exit_game" from="HUD" to="." method="_on_HUD_exit_game"]
+[connection signal="music_game" from="HUD" to="." method="_on_HUD_music_game"]
+[connection signal="ok_options" from="HUD" to="." method="_on_HUD_ok_options"]
+[connection signal="options_game" from="HUD" to="." method="_on_HUD_options_game"]
+[connection signal="restart_game" from="HUD" to="." method="_on_HUD_restart_game"]
+[connection signal="resume_game" from="HUD" to="." method="_on_HUD_resume_game"]
+[connection signal="sound_game" from="HUD" to="." method="_on_HUD_sound_game"]
+[connection signal="start_game" from="HUD" to="." method="_on_HUD_start_game"]
+[connection signal="timeout" from="GameOverTimer" to="." method="_on_GameOverTimer_timeout"]

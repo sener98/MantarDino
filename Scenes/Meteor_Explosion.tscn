@@ -1,0 +1,40 @@
+[gd_scene load_steps=5 format=2]
+
+[ext_resource path="res://Entities/sounds/Explosion.wav" type="AudioStream" id=1]
+
+[sub_resource type="Gradient" id=1]
+offsets = PackedFloat32Array( 0, 0.266667, 0.496296, 0.674074, 0.888889, 1 )
+colors = PackedColorArray( 0.215686, 0.00392157, 0.00392157, 0.498039, 0.807843, 0.00784314, 0.00784314, 0.623529, 0.83252, 0.0487804, 0.0487804, 0.346405, 1, 0.847059, 0.0352941, 1, 1, 0.944385, 0.649198, 0.363636, 1, 1, 1, 0 )
+
+[sub_resource type="GradientTexture2D" id=2]
+gradient = SubResource( 1 )
+
+[sub_resource type="ParticleProcessMaterial" id=3]
+lifetime_randomness = 1.0
+trail_divisor = 2
+emission_shape = 1
+emission_sphere_radius = 5.0
+flag_disable_z = true
+spread = 180.0
+gravity = Vector3( 0, 0, 0 )
+initial_velocity = 200.0
+initial_velocity_random = 0.5
+orbit_velocity = 0.0
+orbit_velocity_random = 0.0
+scale = 15.0
+scale_random = 1.0
+color_ramp = SubResource( 2 )
+
+[node name="Meteor_Explosion" type="GPUParticles2D"]
+scale = Vector2( 2, 2 )
+emitting = false
+amount = 500
+one_shot = true
+speed_scale = 2.0
+explosiveness = 1.0
+local_coords = false
+process_material = SubResource( 3 )
+
+[node name="Explosion_Sound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource( 1 )
+attenuation = 15.0
