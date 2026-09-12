@@ -15,8 +15,8 @@ var score = 0
 var health = 100
 
 const SPEED = 400
-const GRAVITY = 100
-const JUMP = 2000
+const GRAVITY = 2000 #100
+const JUMP = 800 #2000
 const BULLET_SPEED = 2000
 
 @onready var dino = get_node("Sprite2D")
@@ -27,7 +27,7 @@ const BULLET_SPEED = 2000
 func _ready():
 	pass
 
-func _process(_delta):
+func _process(delta):
 	if global.game_over:
 		return
 	if hit == false:
@@ -39,23 +39,19 @@ func _process(_delta):
 	
 	direction = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	
-	if Input.is_action_pressed("ui_select"):
-		if is_on_floor():
-			is_jumping = true
-			velocity.y += -JUMP
+	if Input.is_action_pressed("ui_select") and is_on_floor():
+		is_jumping = true
+		velocity.y += -JUMP
 	
 	fire_check()
 	
 	velocity.x = direction * SPEED
-	velocity.y += GRAVITY
+	velocity.y += GRAVITY * delta
 	
 	if position.y > 5000:
 		emit_signal("game_over")
 	
-	set_velocity(velocity)
-	set_up_direction(Vector2.UP)
 	move_and_slide()
-	velocity = velocity
 	update_animation()
 
 func fire_check():
