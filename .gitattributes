@@ -1,2 +1,16 @@
-# Auto detect text files and perform LF normalization
-* text=auto
+# Tüm metin dosyalarını otomatik olarak LF yap
+* text=auto eol=lf
+
+# Godot ve script dosyalarını kesin olarak LF'e zorla
+*.gd text eol=lf
+*.tscn text eol=lf
+*.tres text eol=lf
+*.godot text eol=lf
+
+# Binary (metin olmayan) dosyaları dokunma
+*.png binary
+*.jpg binary
+*.svg binary
+*.wav binary
+*.ogg binary
+*.import binary

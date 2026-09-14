@@ -1,4 +1,7 @@
 res://default_env.tres
-res://Scenes/Player.tscn
 res://Scenes/World.tscn
+res://Scenes/Player.tscn
+res://Scenes/Enemy.tscn
+res://Scenes/Mush.tscn
+res://Scenes/Finish.tscn
 res://Scripts/Player.gd

@@ -14,6 +14,9 @@ var hit = false
 var score = 0
 var health = 100
 
+var jump_count = 0
+const MAX_JUMPS = 2
+
 const SPEED = 400
 const GRAVITY = 2000 #100
 const JUMP = 800 #2000
@@ -36,12 +39,21 @@ func _process(delta):
 		randf_range(-1.0, 1.0) * global.shake_amount, 
 		randf_range(-1.0, 1.0) * global.shake_amount
 	))
-	
+
 	direction = Input.get_action_strength("ui_right") - Input.get_action_strength("ui_left")
 	
-	if Input.is_action_pressed("ui_select") and is_on_floor():
+	# Yerdeyken zıplama hakkını sıfırla
+	if is_on_floor():
+		jump_count = 0
+	
+	# Zıplama kontrolü
+	if Input.is_action_just_pressed("ui_select") and jump_count < MAX_JUMPS:
 		is_jumping = true
-		velocity.y += -JUMP
+		velocity.y = -JUMP
+		jump_count += 1
+		if jump.playing:
+			jump.stop()
+		jump.play()
 	
 	fire_check()
 	
@@ -92,16 +104,13 @@ func update_animation():
 			dino.flip_h = false
 		elif direction == -1:
 			dino.flip_h = true
-		if Input.is_action_pressed("ui_select"):
-			if not jump.playing:
-				jump.play()
+		# Havadayken zıplama ve düşme animasyonları
+		if velocity.y < 0:
 			dino.play("Jump")
 		else:
-			if not is_jumping:
-				if not fall.playing:
-					if not fall_has_played:
-						fall.play()
-						fall_has_played = true
+			if not fall.playing and not fall_has_played:
+					fall.play()
+					fall_has_played = true
 			dino.play("Fall")
 			
 	set_sprite_offset()

@@ -198,9 +198,8 @@ animations = [{
 "speed": 15.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="2"]
-radius = 18.5
-height = 37.0
+[sub_resource type="CircleShape2D" id="CircleShape2D_8p516"]
+radius = 46.0
 
 [sub_resource type="Animation" id="3"]
 resource_name = "hit"
@@ -234,7 +233,7 @@ animation = &"Idle"
 offset = Vector2(120, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1315965299]
-shape = SubResource("2")
+shape = SubResource("CircleShape2D_8p516")
 
 [node name="Camera2D" type="Camera2D" parent="." unique_id=1534790172]
 limit_bottom = 760

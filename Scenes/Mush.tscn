@@ -1,87 +1,89 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene format=3 uid="uid://xiib46laljg2"]
 
-[ext_resource path="res://Entities/sounds/Mush.wav" type="AudioStream" id=1]
-[ext_resource path="res://Entities/objects/Mushroom_1.png" type="Texture2D" id=2]
-[ext_resource path="res://Scripts/Mush.gd" type="Script" id=3]
+[ext_resource type="AudioStream" uid="uid://cho4ddoqae3cj" path="res://Entities/sounds/Mush.wav" id="1"]
+[ext_resource type="Texture2D" uid="uid://be5nmgyyjywxq" path="res://Entities/objects/Mushroom_1.png" id="2"]
+[ext_resource type="Script" uid="uid://cfjxetm7t4qs1" path="res://Scripts/Mush.gd" id="3"]
 
-[sub_resource type="CircleShape2D" id=1]
+[sub_resource type="CircleShape2D" id="1"]
 radius = 25.0
 
-[sub_resource type="Animation" id=2]
+[sub_resource type="Animation" id="2"]
 resource_name = "hit"
 length = 0.3
 tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
 tracks/0/path = NodePath(".:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
-tracks/0/imported = false
-tracks/0/enabled = true
 tracks/0/keys = {
-"times": PackedFloat32Array( 0, 0.3 ),
-"transitions": PackedFloat32Array( 1, 1 ),
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ Vector2( 0, 0 ), Vector2( 0, -30 ) ]
+"values": [Vector2(0, 0), Vector2(0, -30)]
 }
 tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
 tracks/1/path = NodePath(".:scale")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
-tracks/1/imported = false
-tracks/1/enabled = true
 tracks/1/keys = {
-"times": PackedFloat32Array( 0, 0.3 ),
-"transitions": PackedFloat32Array( 1, 1 ),
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ Vector2( 1, 1 ), Vector2( 2, 2 ) ]
+"values": [Vector2(1, 1), Vector2(2, 2)]
 }
 tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
 tracks/2/path = NodePath(".:modulate")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
-tracks/2/imported = false
-tracks/2/enabled = true
 tracks/2/keys = {
-"times": PackedFloat32Array( 0, 0.3 ),
-"transitions": PackedFloat32Array( 1, 1 ),
+"times": PackedFloat32Array(0, 0.3),
+"transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [ Color( 1, 1, 1, 1 ), Color( 1, 1, 1, 0 ) ]
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
 tracks/3/path = NodePath("../Hit_Sound:playing")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
-tracks/3/imported = false
-tracks/3/enabled = true
 tracks/3/keys = {
-"times": PackedFloat32Array( 0 ),
-"transitions": PackedFloat32Array( 1 ),
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [ true ]
+"values": [true]
 }
 
-[node name="Mush" type="Area2D"]
-scale = Vector2( 1.5, 1.5 )
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tokq2"]
+_data = {
+&"hit": SubResource("2")
+}
+
+[node name="Mush" type="Area2D" unique_id=1650897443]
+scale = Vector2(1.5, 1.5)
 collision_layer = 4
-script = ExtResource( 3 )
-__meta__ = {
-"_edit_group_": true
-}
+script = ExtResource("3")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource( 2 )
-offset = Vector2( 0, -20 )
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1392280067]
+texture = ExtResource("2")
+offset = Vector2(0, -20)
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-position = Vector2( 0, -20 )
-shape = SubResource( 1 )
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1485095139]
+position = Vector2(0, -20)
+shape = SubResource("1")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=482086575]
 root_node = NodePath("../Sprite2D")
-anims/hit = SubResource( 2 )
+libraries/ = SubResource("AnimationLibrary_tokq2")
 
-[node name="Hit_Sound" type="AudioStreamPlayer2D" parent="."]
-stream = ExtResource( 1 )
-bus = "FX"
+[node name="Hit_Sound" type="AudioStreamPlayer2D" parent="." unique_id=115958489]
+stream = ExtResource("1")
+bus = &"FX"
+
 [connection signal="body_entered" from="." to="." method="_on_mush_body_entered"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_AnimationPlayer_animation_finished"]
